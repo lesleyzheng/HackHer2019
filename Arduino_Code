@@ -1,0 +1,71 @@
+
+
+//Created by Davide Di Tesla  --- d.Tech --- 
+//Made for "Microcontroller" Contest of INSTRUCTABLES.COM 
+//04-2017
+
+
+#include <SoftwareSerial.h>
+
+SoftwareSerial BT(9,8);//RX of HC-05,TX of HC-05
+String state;
+
+void setup() {
+  BT.begin(9600);
+  Serial.begin(9600);
+  pinMode(8, OUTPUT); //Pin of the LIGHT BULB
+  pinMode(9, OUTPUT); //Pin of the WHITE SOCKET
+  pinMode(10, OUTPUT); //Pin of the BLACK SOCKET
+}
+
+void loop(){
+  while (BT.available()){
+    delay(10);
+    char  c = BT.read();
+    state += c;
+  }
+  if (state.length() > 0){  
+    Serial.println(state);
+    if(state == "LON")   //When recive the code "LON" turn HIGH the pin of the LIGHT BULB
+    {
+      digitalWrite(8, HIGH);  
+    }
+    
+  else if(state == "LOFF")  //When recive the code "LOFF" turn LOW the pin of the LIGHT BULB
+  {
+    digitalWrite(8, LOW);
+    }
+ if(state == "SWON")   //When recive the code "SWON" turn HIGH the pin of the WHITE SOCKET
+    {
+      digitalWrite(9, HIGH);
+    }
+    
+  else if(state == "SWOFF")  //When recive the code "SWOFF" turn LOW the pin of the WHITE SOCKET
+  {
+    digitalWrite(9, LOW);         
+  }
+  
+if(state == "SBON")   //When recive the code "SBON" turn HIGH the pin of the BLACK SOCKET
+    {
+      digitalWrite(10, HIGH);
+    }
+    
+  else if(state == "SBOFF")  //When recive the code "SBOFF" turn LOW the pin of the BLACK SOCKET
+  {
+    digitalWrite(10, LOW);
+    }
+if(state == "AON")   //When recive the code "AON" turn HIGH all the pin
+    {
+      digitalWrite(8, HIGH);
+      digitalWrite(9, HIGH);
+      digitalWrite(10, HIGH);
+    }
+    
+  else if(state == "AOFF")  //When recive the code "AOFF" turn LOW all the pin
+  {
+    digitalWrite(8, LOW);
+    digitalWrite(9, LOW);
+    digitalWrite(10, LOW);
+    }
+
+state ="";}}
